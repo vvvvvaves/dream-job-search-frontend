@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import axios from "axios";
 import TagInput from "./TagInput";
+import Logs, { type LogsRef } from "./Logs";
 
 interface UpdateDatabaseProps {
   setIsLoggedIn?: (value: boolean) => void;
@@ -11,11 +12,19 @@ const UpdateDatabase = ({ setIsLoggedIn }: UpdateDatabaseProps) => {
   const [queries, setQueries] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [showLogs, setShowLogs] = useState(false);
+  const logsRef = useRef<{ clearLogs: () => void }>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setMessage("");
+    setShowLogs(true);
+
+    // Clear logs at the start of each new execution
+    if (logsRef.current) {
+      logsRef.current.clearLogs();
+    }
 
     try {
       if (locations.length === 0 || queries.length === 0) {
@@ -98,6 +107,13 @@ const UpdateDatabase = ({ setIsLoggedIn }: UpdateDatabaseProps) => {
           </div>
         )}
 
+        {/* Live Logs Section */}
+        {showLogs && (
+          <div className="logs-section">
+            <Logs ref={logsRef} />
+          </div>
+        )}
+
         <div className="info-box">
           <h4>How it works:</h4>
           <ul>
@@ -105,6 +121,7 @@ const UpdateDatabase = ({ setIsLoggedIn }: UpdateDatabaseProps) => {
             <li>Enter job titles or keywords to search for</li>
             <li>The system will scrape LinkedIn for matching job postings</li>
             <li>Results are stored in the database for future searches</li>
+            <li>Live logs show real-time progress during the update process</li>
           </ul>
         </div>
       </div>

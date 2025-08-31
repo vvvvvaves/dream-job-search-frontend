@@ -399,6 +399,103 @@ textarea.form-input {
   font-weight: bold;
 }
 
+/* Logs styles */
+.logs-section {
+  margin: 2rem 0;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 2rem;
+}
+
+.logs-container {
+  background: #1a202c;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.logs-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: #2d3748;
+  border-bottom: 1px solid #4a5568;
+}
+
+.logs-title {
+  color: #e2e8f0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.logs-controls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.clear-logs-btn {
+  background: none;
+  border: none;
+  color: #a0aec0;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: all 0.2s;
+  font-size: 1.2rem;
+}
+
+.clear-logs-btn:hover {
+  background: #4a5568;
+  color: #e2e8f0;
+}
+
+.logs-content {
+  padding: 1.5rem;
+  height: 400px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  /* Custom scrollbar styling for better UX */
+  scrollbar-width: thin;
+  scrollbar-color: #4a5568 #2d3748;
+}
+
+.logs-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.logs-content::-webkit-scrollbar-track {
+  background: #2d3748;
+  border-radius: 4px;
+}
+
+.logs-content::-webkit-scrollbar-thumb {
+  background: #4a5568;
+  border-radius: 4px;
+}
+
+.logs-content::-webkit-scrollbar-thumb:hover {
+  background: #718096;
+}
+
+.no-logs {
+  color: #718096;
+  text-align: center;
+  font-style: italic;
+  padding: 2rem;
+}
+
+.logs-text {
+  color: #68d391;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
 /* Job Search styles */
 .job-search-container {
   max-width: 1000px;
@@ -584,5 +681,46 @@ textarea.form-input {
   .btn-add-tag {
     border-radius: 8px;
     align-self: flex-start;
+  }
+}
+
+.scroll-to-bottom-btn {
+  background: #4299e1;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  font-size: 0.8rem;
+  font-weight: 500;
+  animation: pulse 2s infinite;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-to-bottom-btn:hover {
+  background: #3182ce;
+  transform: translateY(-1px);
+}
+
+.logs-count {
+  color: #a0aec0;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  background: #4a5568;
+  border-radius: 4px;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(66, 153, 225, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(66, 153, 225, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(66, 153, 225, 0);
   }
 }
