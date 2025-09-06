@@ -11,11 +11,22 @@ const Header = ({ isLoggedIn, setIsLoggedIn }: HeaderProps) => {
 
   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:8000/logout");
+      const token = localStorage.getItem("dream_job_search_token");
+      if (token) {
+        await axios.post(
+          "http://localhost:8000/logout",
+          {},
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+      }
     } catch (error) {
       console.error("Logout error:", error);
       // Continue with logout even if backend call fails
     } finally {
+      localStorage.removeItem("dream_job_search_token");
+      delete axios.defaults.headers.common["Authorization"];
       setIsLoggedIn(false);
       navigate("/");
     }
@@ -28,7 +39,7 @@ const Header = ({ isLoggedIn, setIsLoggedIn }: HeaderProps) => {
           <h1>Dream Job Search</h1>
         </Link>
         <nav className="nav">
-          {isLoggedIn && (
+          {isLoggedIn ? (
             <>
               <Link to="/search" className="nav-link">
                 Search Jobs
@@ -39,6 +50,15 @@ const Header = ({ isLoggedIn, setIsLoggedIn }: HeaderProps) => {
               <button onClick={handleLogout} className="btn btn-outline">
                 Logout
               </button>
+            </>
+          ) : (
+            <>
+              <Link to="/" className="nav-link">
+                Sign In
+              </Link>
+              <Link to="/register" className="nav-link">
+                Register
+              </Link>
             </>
           )}
         </nav>

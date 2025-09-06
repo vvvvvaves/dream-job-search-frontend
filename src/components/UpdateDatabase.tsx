@@ -33,11 +33,23 @@ const UpdateDatabase = ({ setIsLoggedIn }: UpdateDatabaseProps) => {
         return;
       }
 
+      const token = localStorage.getItem("dream_job_search_token");
+      if (!token) {
+        setMessage("You are not logged in. Please login first.");
+        if (setIsLoggedIn) {
+          setIsLoggedIn(false);
+        }
+        return;
+      }
+
       const response = await axios.post(
         "http://localhost:8000/update-database",
         {
           locations: locations,
           queries: queries,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 

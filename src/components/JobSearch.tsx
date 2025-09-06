@@ -38,10 +38,25 @@ const JobSearch = ({ setIsLoggedIn }: JobSearchProps) => {
         return;
       }
 
-      const response = await axios.post("http://localhost:8000/job-postings", {
-        keywords: keywords,
-        location: location.trim() || null,
-      });
+      const token = localStorage.getItem("dream_job_search_token");
+      if (!token) {
+        setError("You are not logged in. Please login first.");
+        if (setIsLoggedIn) {
+          setIsLoggedIn(false);
+        }
+        return;
+      }
+
+      const response = await axios.post(
+        "http://localhost:8000/job-postings",
+        {
+          keywords: keywords,
+          location: location.trim() || null,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       setJobPostings(response.data.job_postings);
       setTotalPages(Math.ceil(response.data.job_postings.length / jobsPerPage));

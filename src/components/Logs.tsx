@@ -66,7 +66,17 @@ const Logs = forwardRef<LogsRef>((props, ref) => {
   }));
 
   useEffect(() => {
-    const eventSource = new EventSource("http://localhost:8000/logs");
+    const token = localStorage.getItem("dream_job_search_token");
+    if (!token) {
+      console.error("No authentication token available for logs");
+      return;
+    }
+
+    // EventSource doesn't support custom headers, so we pass the token as a query parameter
+    // Note: This is less secure than headers but necessary for SSE
+    const eventSource = new EventSource(
+      `http://localhost:8000/logs?token=${encodeURIComponent(token)}`
+    );
 
     eventSource.onmessage = (event) => {
       console.log("Received log message:", event.data);
